@@ -113,41 +113,8 @@ unsigned char SerialPort::Recv(void)
 			if(nullRecvCounter>10)break;
 		}
 		else if(0 < nRead)
-		{//如果有收到東西
-			nullRecvCounter=0;//計數歸0
-			//printf("%02x",nRead);
-			//printf("%02x\n", strRxBuf[0]);
-			//printf("%02x\n", strRxBuf[1]);
-			//strRxFullMsg.append((char*)strRxBuf, nRead);//加入字串才用signed
-			//////////////////////////////////////////
-			ret = flow_parse_char(strRxBuf[0]);
-			if (!ret) {
-					short x = 0, y = 0;
-					//struct tm tmTmp;
-					char sttemp[32];
-					//localtime_s(&tmTmp,&t);
-					//asctime_s(sttemp, &tmTmp);
-					x = updata.flow_x_integral;
-					y = updata.flow_y_integral;
-					//timespan = updata.integration_timespan;
-					if (valuex != -999) {
-							x = filter(x, valuex, 50);
-					}
-					if (valuey != -999) {
-							y = filter(y, valuey, 50);
-					}
-					valuex = x;
-					valuey = y;
-					printf("x=%4d , y=%4d\n", x, y);
-					// printf_s("time is: %s\n", sttemp);
-					//f << x << " " << y << "\n" << "time:" << sttemp << "\n";
-					//printf("num=%d \n", num);
-					//printf("time=%d \n", timespan);//这个是光流间隔时间
-			}
-			else if (nRead < 0) {
-			printf("Error from read: %d: %s\n", nRead, strerror(errno));
-			}
-///////////////////////////////////////////////////////////////////////
+		{
+			printf("%02x", strRxBuf);
 
 		}
 		else
@@ -160,65 +127,3 @@ unsigned char SerialPort::Recv(void)
 
 	return strRxBuf[0];
 }
-
-//////////////////////////////////////////////////////////
-int16_t SerialPort::flow_parse_char(uint8_t ch)
-{
-    num++;
-    int16_t ret = 1;
-    static int16_t s = 0, p = 0;
-    static uint8_t Xor_r = 0x00, Xor_c = 0x00;
-
-    switch (s)
-    {
-        case 0:
-            if (ch == 0xFE)
-            {
-                s = 1;
-                //printf("Got FE\n");
-            }
-            break;
-        case 1:
-            if (ch == 0x0A)
-            {
-                s = 2;
-                p = 0;
-                Xor_c = 0x00;
-                //printf("Got 0A\n");
-            }
-            else
-                s = 0;
-            break;
-        case 2:
-            ((char *)&updata)[p++] = ch;
-            Xor_c ^= ch;
-            if (p == 10) {
-                s = 3;
-                p = 0;
-            }
-            break;
-        case 3: //crc
-            s = 4;
-            Xor_r = ch;
-            break;
-        case 4://end
-            if (ch == 0x55) {
-                //printf("Got 0x55\n");
-                if (Xor_r == Xor_c) {
-                    ret = 0;
-                }
-                else
-                    ret = 2;
-            }
-            s = 0;
-            break;
-        default:
-            break;
-    }
-    return ret;
-}
-
-int SerialPort::filter(int new_value,int value,int a) {
-    return ((100 - a)*value + a * new_value)/100;
-}
-///////////////////////////////////////////////////
