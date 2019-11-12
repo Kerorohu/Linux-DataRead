@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/oyo/下载/SerialPort/src/SerialPort.cpp
+/home/oyo/文档/Linux-DAtaRead/SerialPort.cpp
 SerialPort.hpp
-/home/oyo/下载/SerialPort/src/SerialPort.hpp
+/home/oyo/文档/Linux-DAtaRead/SerialPort.hpp
 iostream
 -
 string.h
@@ -16,7 +16,7 @@ string.h
 unistd.h
 -
 
-/home/oyo/下载/SerialPort/src/SerialPort.hpp
+/home/oyo/文档/Linux-DAtaRead/SerialPort.hpp
 stdio.h
 -
 stdlib.h
@@ -33,14 +33,4 @@ errno.h
 -
 string
 -
-
-/home/oyo/下载/SerialPort/src/main.cpp
-iostream
--
-string
--
-unistd.h
--
-SerialPort.hpp
-/home/oyo/下载/SerialPort/src/SerialPort.hpp
 

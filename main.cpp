@@ -3,6 +3,7 @@
 #include <string>
 #include <unistd.h> //For usleep()
 #include "SerialPort.hpp"
+
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -39,7 +40,7 @@ int main(int argc, char *argv[])
 	system(strPermissionGetCommand.c_str());
 
 	//建立物件
-	SerialPort* serialPort = new SerialPort(strModemDevice, SerialPort::BR19200);
+	SerialPort* serialPort = new SerialPort(strModemDevice, SerialPort::BR500000);
 
 	while(serialPort->isOpen())
 	{//開檔成功
@@ -54,7 +55,7 @@ int main(int argc, char *argv[])
 
 		//接收字串
 		unsigned char strRx = serialPort->Recv();
-		printf("%02x\n", strRx);
+		printf("data = %02x\n", strRx);
 		//cout << "Serial Port Receive  : " << strRx << endl;
 	}
 	serialPort->Close();

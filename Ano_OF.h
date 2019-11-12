@@ -1,33 +1,41 @@
 #ifndef __ANO_OF_H_
 #define __ANO_OF_H_
 
-#include "stm32f4xx.h"
-//以下为全局变量，在其他文件中，引用本h文件，即可在其他文件中访问到以下变量
-//光流信息质量：QUA
-//光照强度：LIGHT
+//#include <iostream>
+//#include <string>
+//#include <unistd.h> //For usleep()
+//锟斤拷锟斤拷为全锟街憋拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟侥硷拷锟叫ｏ拷锟斤拷锟矫憋拷h锟侥硷拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟侥硷拷锟叫凤拷锟绞碉拷锟斤拷锟铰憋拷锟斤拷
+//锟斤拷锟斤拷锟斤拷息锟斤拷锟斤拷锟斤拷QUA
+//锟斤拷锟斤拷强锟饺ｏ拷LIGHT
+#include <stdlib.h>
+
+typedef unsigned char uint8_t;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned short uint16_t;
 extern uint8_t 	OF_STATE,OF_QUALITY;
-//原始光流信息，具体意义见光流模块手册
+//原始锟斤拷锟斤拷锟斤拷息锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷模锟斤拷锟街诧拷
 extern int8_t	OF_DX,OF_DY;
-//融合后的光流信息，具体意义见光流模块手册
+//锟节合猴拷锟侥癸拷锟斤拷锟斤拷息锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷模锟斤拷锟街诧拷
 extern int16_t	OF_DX2,OF_DY2,OF_DX2FIX,OF_DY2FIX;
-//原始高度信息和融合后高度信息
+//原始锟竭讹拷锟斤拷息锟斤拷锟节合猴拷锟竭讹拷锟斤拷息
 extern uint16_t	OF_ALT,OF_ALT2;
-//原始陀螺仪数据
+//原始锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
 extern int16_t	OF_GYR_X,OF_GYR_Y,OF_GYR_Z;
-//滤波后陀螺仪数据
+//锟剿诧拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
 extern int16_t	OF_GYR_X2,OF_GYR_Y2,OF_GYR_Z2;
-//原始加速度数据
+//原始锟斤拷锟劫讹拷锟斤拷锟斤拷
 extern int16_t	OF_ACC_X,OF_ACC_Y,OF_ACC_Z;
-//滤波后加速度数据
+//锟剿诧拷锟斤拷锟斤拷锟劫讹拷锟斤拷锟斤拷
 extern int16_t	OF_ACC_X2,OF_ACC_Y2,OF_ACC_Z2;
-//欧拉角格式的姿态数据
+//欧锟斤拷锟角革拷式锟斤拷锟斤拷态锟斤拷锟斤拷
 extern float	OF_ATT_ROL,OF_ATT_PIT,OF_ATT_YAW;
-//四元数格式的姿态数据
+//锟斤拷元锟斤拷锟斤拷式锟斤拷锟斤拷态锟斤拷锟斤拷
 extern float	OF_ATT_S1,OF_ATT_S2,OF_ATT_S3,OF_ATT_S4;
 
 
-//本函数是唯一一个需要外部调用的函数，因为光流模块是串口输出数据
-//所以本函数需要在串口接收中断中调用，每接收一字节数据，调用本函数一次
+//锟斤拷锟斤拷锟斤拷锟斤拷唯一一锟斤拷锟斤拷要锟解部锟斤拷锟矫的猴拷锟斤拷锟斤拷锟斤拷为锟斤拷锟斤拷模锟斤拷锟角达拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
+//锟斤拷锟皆憋拷锟斤拷锟斤拷锟斤拷要锟节达拷锟节斤拷锟斤拷锟叫讹拷锟叫碉拷锟矫ｏ拷每锟斤拷锟斤拷一锟街斤拷锟斤拷锟捷ｏ拷锟斤拷锟矫憋拷锟斤拷锟斤拷一锟斤拷
 void AnoOF_GetOneByte(uint8_t data);
 void AnoOF_DataAnl_Task(u8 dT_ms);
 void AnoOF_Check(u8 dT_ms);

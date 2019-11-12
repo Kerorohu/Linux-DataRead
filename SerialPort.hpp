@@ -10,13 +10,35 @@
 #include     <errno.h>
 #include	 <string>
 
-using namespace std;
 
-////////////////////////////////////////////
+using namespace std;
 typedef unsigned char uint8_t;
+typedef unsigned char u8;
+typedef unsigned short u16;
 typedef unsigned short uint16_t;
 
-///////////////////////////////////////
+///////////////////////////////////
+extern uint8_t 	OF_STATE,OF_QUALITY;
+
+extern int8_t	OF_DX,OF_DY;
+
+extern int16_t	OF_DX2,OF_DY2,OF_DX2FIX,OF_DY2FIX;
+
+extern uint16_t	OF_ALT,OF_ALT2;
+
+extern int16_t	OF_GYR_X,OF_GYR_Y,OF_GYR_Z;
+
+extern int16_t	OF_GYR_X2,OF_GYR_Y2,OF_GYR_Z2;
+
+extern int16_t	OF_ACC_X,OF_ACC_Y,OF_ACC_Z;
+
+extern int16_t	OF_ACC_X2,OF_ACC_Y2,OF_ACC_Z2;
+
+extern float	OF_ATT_ROL,OF_ATT_PIT,OF_ATT_YAW;
+
+extern float	OF_ATT_S1,OF_ATT_S2,OF_ATT_S3,OF_ATT_S4;
+
+///////////////////////////////////////////
 
 typedef int BaudRate;
 
@@ -26,20 +48,25 @@ public:
 	virtual ~SerialPort();
 	bool isOpen();
 	void Close();
+	//ofstream in;
 
 	int Send(string);
 	int Send(unsigned char*, size_t);
 	unsigned char Recv(void);
-	///////////////////////////////////
-	
+
+
+	void AnoOF_GetOneByte(uint8_t data);
 	//////////////////////////////////////////
 	static const BaudRate BR115200 = 0010002;
 	static const BaudRate  BR19200 = 0000016;
 	static const BaudRate   BR9600 = 0000015;
+	static const BaudRate BR500000 = 0010005;
 
 	int GetFileDescriptor();
 private:
 
+	void AnoOF_DataAnl_Task(u8 dT_ms);
+	void AnoOF_Check(u8 dT_ms);
 	int OpenDevice(string);
 	int nFd;
 };

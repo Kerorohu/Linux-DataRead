@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/oyo/下载/SerialPort/src/SerialPort.cpp" "/home/oyo/下载/SerialPort/src/build/CMakeFiles/main.dir/SerialPort.cpp.o"
-  "/home/oyo/下载/SerialPort/src/main.cpp" "/home/oyo/下载/SerialPort/src/build/CMakeFiles/main.dir/main.cpp.o"
+  "/home/oyo/文档/Linux-DAtaRead/SerialPort.cpp" "/home/oyo/文档/Linux-DAtaRead/build/CMakeFiles/main.dir/SerialPort.cpp.o"
+  "/home/oyo/文档/Linux-DAtaRead/main.cpp" "/home/oyo/文档/Linux-DAtaRead/build/CMakeFiles/main.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
