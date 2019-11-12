@@ -1,0 +1,3 @@
+/home/oyo/下载/SerialPort/src/build/CMakeFiles/rebuild_cache.dir
+/home/oyo/下载/SerialPort/src/build/CMakeFiles/edit_cache.dir
+/home/oyo/下载/SerialPort/src/build/CMakeFiles/main.dir
