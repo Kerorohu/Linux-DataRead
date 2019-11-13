@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/oyo/文档/src/SerialPort.cpp
+SerialPort.hpp
+/home/oyo/文档/src/SerialPort.hpp
+iostream
+-
+string.h
+-
+unistd.h
+-
+
+/home/oyo/文档/src/SerialPort.hpp
+stdio.h
+-
+stdlib.h
+-
+sys/types.h
+-
+sys/stat.h
+-
+fcntl.h
+-
+termios.h
+-
+errno.h
+-
+string
+-
+
