@@ -25,7 +25,7 @@ void AnoOF_DataAnl(uint8_t *data_buf,uint8_t num);
 
 SerialPort::SerialPort(const string portName, int baudRate)
 {
-
+	fp = fopen("test1.txt","w");
 	//in.open("dataTest.txt",ios::trunc);
 	printf("baudRate code = %d\n", baudRate);
 	//this->nFd = OpenDevice(portName);
@@ -223,8 +223,13 @@ void SerialPort::AnoOF_GetOneByte(uint8_t data)
 		AnoOF_DataAnl(_datatemp,_data_cnt+6);//anoof_data_ok = 1 ;//
 		printf("Dx = %02d", OF_DX);
 		printf(" Dy = %02d\n", OF_DY);
-		printf("Dx2 = %02d", OF_DX2);
-		printf(" Dy2 = %02d\n", OF_DY2);
+		//printf("Dx2 = %02d", OF_DX2);
+		//printf(" Dy2 = %02d\n", OF_DY2);
+
+		char str[64];
+		//sprintf(str, "x= %4d ,y=%4d  x2=%4d ,y2=%4d\n",OF_DX,OF_DY,OF_DX2,OF_DY2);
+		sprintf(str, "x= %4d ,y=%4d \n",OF_DX,OF_DY);
+		fputs(str,SerialPort::fp);
 		//in << "of_dx="<<OF_DX<<" of_dy=" <<OF_DY << endl;
 	//	in << "of_dx2="<<OF_DX2<<" of_dy2=" <<OF_DY2 << endl;
 

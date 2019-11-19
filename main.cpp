@@ -8,7 +8,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	argc = 2 ; argv[1] = (char*)"ttyUSB0"; //dummy input
+	argc = 2 ; argv[1] = (char*)"ttyUSB1"; //dummy input
 
 	string strModemDevice = "/dev/";
 	while(NULL == argv[1])
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 		}
 		else if(toupper(cInput) == 'Y')
 		{
-			argc = 2; argv[1] = (char*)"ttyUSB0"; //dummy input
+			argc = 2; argv[1] = (char*)"ttyUSB1"; //dummy input
 			break;
 		}
 		system("clear");

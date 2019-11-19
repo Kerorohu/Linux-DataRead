@@ -49,7 +49,7 @@ public:
 	bool isOpen();
 	void Close();
 	//ofstream in;
-
+	FILE *fp;
 	int Send(string);
 	int Send(unsigned char*, size_t);
 	unsigned char Recv(void);
