@@ -32,10 +32,10 @@ typedef int BaudRate;
 class SerialPort {
 public:
 	SerialPort(const string portName, BaudRate baudRate);
-	virtual ~SerialPort();
+	~SerialPort();
 	bool isOpen();
 	void Close();
-
+  FILE *fp;
 	int Send(string);
 	int Send(unsigned char*, size_t);
 	unsigned char Recv(void);
@@ -50,7 +50,6 @@ public:
 
 	int GetFileDescriptor();
 private:
-
 	int OpenDevice(string);
 	int nFd;
 };

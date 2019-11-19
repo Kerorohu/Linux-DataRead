@@ -12,6 +12,7 @@ int num = 0;
 
 SerialPort::SerialPort(const string portName, int baudRate)
 {
+	fp = fopen("test1.txt","w");
 	printf("baudRate code = %d\n", baudRate);
 	//this->nFd = OpenDevice(portName);
 	this->nFd = open(portName.c_str(), O_RDWR|O_NOCTTY|O_NDELAY );
@@ -42,6 +43,7 @@ SerialPort::SerialPort(const string portName, int baudRate)
 	}
 }
 
+
 bool SerialPort::isOpen()
 {//檢查port是否已經開啟
 	return (-1 == this->nFd) ? false : true;
@@ -55,6 +57,7 @@ void SerialPort::Close()
 SerialPort::~SerialPort() {
 	// TODO Auto-generated destructor stub
 	//應該有些什麼東西要手動free掉？ 目前看起來沒有
+	fclose(fp);
 }
 
 int SerialPort::OpenDevice(string strDevice)
@@ -138,7 +141,13 @@ unsigned char SerialPort::Recv(void)
 					}
 					valuex = x;
 					valuey = y;
+
+				  char str[64];
+
+					sprintf(str, "x= %4d ,y=%4d\n",x,y);
 					printf("x=%4d , y=%4d\n", x, y);
+					printf("%s\n", str);
+					fputs(str,SerialPort::fp);
 					// printf_s("time is: %s\n", sttemp);
 					//f << x << " " << y << "\n" << "time:" << sttemp << "\n";
 					//printf("num=%d \n", num);

@@ -6,16 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/oyo/文档/src/SerialPort.cpp
-SerialPort.hpp
-/home/oyo/文档/src/SerialPort.hpp
-iostream
--
-string.h
--
-unistd.h
--
-
 /home/oyo/文档/src/SerialPort.hpp
 stdio.h
 -
@@ -33,4 +23,14 @@ errno.h
 -
 string
 -
+
+/home/oyo/文档/src/main.cpp
+iostream
+-
+string
+-
+unistd.h
+-
+SerialPort.hpp
+/home/oyo/文档/src/SerialPort.hpp
 

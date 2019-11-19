@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	argc = 2 ; argv[1] = (char*)"ttyUSB0"; //dummy input
+	argc = 2 ; argv[1] = (char*)"ttyUSB2"; //dummy input
 
 	string strModemDevice = "/dev/";
 	while(NULL == argv[1])
@@ -24,13 +24,13 @@ int main(int argc, char *argv[])
 		}
 		else if(toupper(cInput) == 'Y')
 		{
-			argc = 2; argv[1] = (char*)"ttyUSB0"; //dummy input
+			argc = 2; argv[1] = (char*)"ttyUSB2"; //dummy input
 			break;
 		}
 		system("clear");
 	}
 
-	cout << "argv[1]: " << argv[1] << endl;
+	cout << "argv[1]===: " << argv[1] << endl;
 	strModemDevice.append(argv[1]); //在string後面加上一個char*字串
 	cout << "strModemDevice = " << strModemDevice << endl;//顯示總字串
 
