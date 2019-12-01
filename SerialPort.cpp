@@ -2,31 +2,23 @@
 #include <iostream>
 #include <string.h>
 #include <unistd.h>
+#include <thread>
 
 //#include <unistd.h> //For usleep()
 using namespace std;
-uint8_t		OF_STATE,OF_QUALITY;
-int8_t		OF_DX,OF_DY;
-int16_t		OF_DX2,OF_DY2,OF_DX2FIX,OF_DY2FIX;
-uint16_t	OF_ALT,OF_ALT2;
-int16_t		OF_GYR_X,OF_GYR_Y,OF_GYR_Z;
-int16_t		OF_GYR_X2,OF_GYR_Y2,OF_GYR_Z2;
-int16_t		OF_ACC_X,OF_ACC_Y,OF_ACC_Z;
-int16_t		OF_ACC_X2,OF_ACC_Y2,OF_ACC_Z2;
-float		OF_ATT_ROL,OF_ATT_PIT,OF_ATT_YAW;
-float		OF_ATT_S1,OF_ATT_S2,OF_ATT_S3,OF_ATT_S4;
 
 //////////////////////////////////////////////
 int num = 0;
 static u8 _data_len = 0;
 static u8 state = 0;
 
-void AnoOF_DataAnl(uint8_t *data_buf,uint8_t num);
 
 SerialPort::SerialPort(const string portName, int baudRate)
 {
 	fp = fopen("test1.txt","w");
 	//in.open("dataTest.txt",ios::trunc);
+	fputs("  Dx,  Dy,  Dx2,  Dy2,  ALT\n",SerialPort::fp);
+
 	printf("baudRate code = %d\n", baudRate);
 	//this->nFd = OpenDevice(portName);
 	this->nFd = open(portName.c_str(), O_RDWR|O_NOCTTY|O_NDELAY );
@@ -34,6 +26,7 @@ SerialPort::SerialPort(const string portName, int baudRate)
 	{
 		this->nFd = -1;
 	}
+
 
 	struct termios options = { 0 };   //宣告一個設定 comport 所需要的結構體 並且清空內部
 
@@ -108,8 +101,18 @@ int SerialPort::Send(unsigned char* strOutMsg, size_t nbyte)
 //SerialPort::~SerialPort(){
 	//in.close();
 //}
+void SerialPort::start(){
+	while(1){
+		SerialPort::Recv();
+	}
+}
 
-unsigned char SerialPort::Recv(void)
+void SerialPort::startUp(){
+	std::thread t(&SerialPort::start,this);
+	t.detach();
+}
+
+void SerialPort::Recv(void)
 {//接收資訊
 
 	const static size_t rxBufferSize = 1;
@@ -117,15 +120,11 @@ unsigned char SerialPort::Recv(void)
 	string strRxFullMsg = "";
 	int nullRecvCounter=0;
 	int nullFirstRecvCounter=0;
-	int valuex = -999;
-	int valuey = -999;
-	int bt = 0;
-	int ret;
 	printf("read start\n");
 	do{
 		memset(strRxBuf, 0, rxBufferSize); //清空緩衝
 		int nRead = read(this->nFd, strRxBuf, rxBufferSize); //接收資料
-		usleep(1000);
+		usleep(100);
 		//cout << "nRead= " << nRead << endl;
 		if(0 >= nRead && !strRxFullMsg.empty())
 		{//如果這一次沒有收到東西，且從未收過資料
@@ -148,7 +147,7 @@ unsigned char SerialPort::Recv(void)
 
 	}while(nullFirstRecvCounter+nullRecvCounter < 1000);//設定time out為1000mSec
 
-	return strRxBuf[0];
+	//return strRxBuf[0];
 }
 
 
@@ -171,8 +170,7 @@ void SerialPort::AnoOF_DataAnl_Task(u8 dT_ms)
 }
 
 
-//AnoOF_GetOneByte�ǳ������ݽ�������������ÿ���յ�һ�ֽڹ������ݣ����ñ�����һ�Σ������������Ǵ����յ�������
-//�����������α����ã����ս��յ�������һ֡���ݺ󣬻��Զ��������ݽ�������AnoOF_DataAnl
+
 void SerialPort::AnoOF_GetOneByte(uint8_t data)
 {
 
@@ -221,15 +219,18 @@ void SerialPort::AnoOF_GetOneByte(uint8_t data)
 		state = 0;
 		_datatemp[5+_data_cnt]=data;
 		AnoOF_DataAnl(_datatemp,_data_cnt+6);//anoof_data_ok = 1 ;//
-		printf("Dx = %02d", OF_DX);
-		printf(" Dy = %02d\n", OF_DY);
+		//printf("Dx = %02d", OF_DX2FIX);
+		//printf("alttitude = %02d" ,OF_ALT);
+		//printf(" Dy = %02d\n", OF_DY2FIX);
+		//printf("DIS_X = %4d", OF_DIS_X);
+		//printf(" ,DIS_Y = %4d\n", OF_DIS_Y);
 		//printf("Dx2 = %02d", OF_DX2);
 		//printf(" Dy2 = %02d\n", OF_DY2);
 
 		char str[64];
 		//sprintf(str, "x= %4d ,y=%4d  x2=%4d ,y2=%4d\n",OF_DX,OF_DY,OF_DX2,OF_DY2);
-		sprintf(str, "x= %4d ,y=%4d \n",OF_DX,OF_DY);
-		fputs(str,SerialPort::fp);
+		//sprintf(str, "%4d,%4d,%4d,%4d,%4d\n",OF_DX,OF_DY,OF_DX2,OF_DY2,OF_ALT2);
+		//fputs(str,SerialPort::fp);
 		//in << "of_dx="<<OF_DX<<" of_dy=" <<OF_DY << endl;
 	//	in << "of_dx2="<<OF_DX2<<" of_dy2=" <<OF_DY2 << endl;
 
@@ -276,7 +277,7 @@ void SerialPort::AnoOF_Check(u8 dT_ms)
 
 }
 
-void AnoOF_DataAnl(uint8_t *data_buf,uint8_t num)
+void SerialPort::AnoOF_DataAnl(uint8_t *data_buf,uint8_t num)
 {
 	u8 sum = 0;
 	for(u8 i=0;i<(num-1);i++)
@@ -294,26 +295,27 @@ void AnoOF_DataAnl(uint8_t *data_buf,uint8_t num)
 		}
 		else if(*(data_buf+5)==1)//�ںϺ�������Ϣ
 		{
+			//printf("get data!\n");
 			OF_STATE 		= *(data_buf+6);
 			OF_DX2		= (int16_t)(*(data_buf+7)<<8)|*(data_buf+8) ;
 			OF_DY2		= (int16_t)(*(data_buf+9)<<8)|*(data_buf+10) ;
 			OF_DX2FIX	= (int16_t)(*(data_buf+11)<<8)|*(data_buf+12) ;
 			OF_DY2FIX	= (int16_t)(*(data_buf+13)<<8)|*(data_buf+14) ;
-			//OF_DIS_X = (int16_t)(*(data_buf+15)<<8)|*(data_buf+16) ;
-			//OF_DIS_Y = (int16_t)(*(data_buf+17)<<8)|*(data_buf+18) ;
+			OF_DIS_X = (int16_t)(*(data_buf+15)<<8)|*(data_buf+16) ;
+			OF_DIS_Y = (int16_t)(*(data_buf+17)<<8)|*(data_buf+18) ;
 			OF_QUALITY  	= *(data_buf+19);
 
 			of_check_f[0] = 1;
 		}
 	}
-	if(*(data_buf+3)==0X52)//�߶���Ϣ
+	if(*(data_buf+3)==0X52)
 	{
-		if(*(data_buf+5)==0)//ԭʼ�߶���Ϣ
+		if(*(data_buf+5)==0)
 		{
 			OF_ALT = (uint16_t)(*(data_buf+6)<<8)|*(data_buf+7) ;
 			of_check_f[1] = 1;
 		}
-		else if(*(data_buf+5)==1)//�ںϺ��߶���Ϣ
+		else if(*(data_buf+5)==1)
 		{
 			OF_ALT2 = (uint16_t)(*(data_buf+6)<<8)|*(data_buf+7) ;
 		}

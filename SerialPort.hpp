@@ -22,7 +22,7 @@ extern uint8_t 	OF_STATE,OF_QUALITY;
 
 extern int8_t	OF_DX,OF_DY;
 
-extern int16_t	OF_DX2,OF_DY2,OF_DX2FIX,OF_DY2FIX;
+extern int16_t	OF_DX2,OF_DY2,OF_DX2FIX,OF_DY2FIX,OF_DIS_X,OF_DIS_Y;
 
 extern uint16_t	OF_ALT,OF_ALT2;
 
@@ -52,9 +52,24 @@ public:
 	FILE *fp;
 	int Send(string);
 	int Send(unsigned char*, size_t);
-	unsigned char Recv(void);
+	void Recv(void);
+	void start();
+	void startUp();
+
+	uint8_t		OF_STATE,OF_QUALITY;
+	int8_t		OF_DX,OF_DY;
+	int16_t		OF_DX2,OF_DY2,OF_DX2FIX,OF_DY2FIX,OF_DIS_X,OF_DIS_Y;
+	uint16_t	OF_ALT,OF_ALT2;
+	int16_t		OF_GYR_X,OF_GYR_Y,OF_GYR_Z;
+	int16_t		OF_GYR_X2,OF_GYR_Y2,OF_GYR_Z2;
+	int16_t		OF_ACC_X,OF_ACC_Y,OF_ACC_Z;
+	int16_t		OF_ACC_X2,OF_ACC_Y2,OF_ACC_Z2;
+	float		OF_ATT_ROL,OF_ATT_PIT,OF_ATT_YAW;
+	float		OF_ATT_S1,OF_ATT_S2,OF_ATT_S3,OF_ATT_S4;
 
 
+	void AnoOF_DataAnl(uint8_t *data_buf,uint8_t num);
+	
 	void AnoOF_GetOneByte(uint8_t data);
 	//////////////////////////////////////////
 	static const BaudRate BR115200 = 0010002;
@@ -69,6 +84,7 @@ private:
 	void AnoOF_Check(u8 dT_ms);
 	int OpenDevice(string);
 	int nFd;
+
 };
 
 #endif /* SERIALPORT_H_ */

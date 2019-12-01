@@ -1,4 +1,4 @@
-# Install script for directory: /home/oyo/文档/Linux-DAtaRead
+# Install script for directory: /home/sues/Downloads/NimingData/Linux-DataRead
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/oyo/文档/Linux-DAtaRead/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/sues/Downloads/NimingData/Linux-DataRead/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

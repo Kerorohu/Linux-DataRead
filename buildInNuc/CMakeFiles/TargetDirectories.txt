@@ -1,0 +1,3 @@
+/home/sues/Downloads/NimingData/Linux-DataRead/buildInNuc/CMakeFiles/rebuild_cache.dir
+/home/sues/Downloads/NimingData/Linux-DataRead/buildInNuc/CMakeFiles/edit_cache.dir
+/home/sues/Downloads/NimingData/Linux-DataRead/buildInNuc/CMakeFiles/main.dir
